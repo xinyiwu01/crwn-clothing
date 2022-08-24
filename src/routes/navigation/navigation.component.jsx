@@ -11,7 +11,11 @@ const Navigation = () => {
             <Link className='logo-container' to='/'>
                 <CrwnLogo />
             </Link>
-          <div className='nav-links-container'></div>
+            <div className='nav-links-container'>
+                <Link className='nav-link' to='/sign-in'>
+                    SIGN IN
+                </Link>
+            </div>
         </div>
         <Outlet />  {/** render nested component */}
       </Fragment>
