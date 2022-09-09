@@ -1,5 +1,13 @@
+//diff services
 import {initializeApp} from 'firebase/app';
 import {getAuth, signInWithRedirect, signInWithPopup, GoogleAuthProvider} from 'firebase/auth'; //authentication
+//doc: get doc instance, getDoc/setDoc: get/set doc data
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc
+} from 'firebase/firestore';
 
 //CRUD ACTIONS
 const firebaseConfig = {
@@ -21,5 +29,28 @@ const firebaseConfig = {
 
   })
 
+
   export const auth = getAuth();
   export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+
+  export const db = getFirestore(); //get firestore database
+
+  export const createUserDocumentFromAuth = async(userAuth) => {
+    //ref: a special object firestore uses when talking about instance of a document model
+    const userDocRef = doc(db, 'users', userAuth.uid);
+    //                      user collection   unique identifier
+
+    //snapshot: data
+    const userSnapshot = await getDoc(userDocRef);
+    if (!userSnapshot.exists()) {
+      const {displayName, email} = userAuth;
+      const createAt = new Date();
+      try {
+        await setDoc(userDocRef, {displayName, email, createAt});
+      } catch (error) {
+        console.log("error creating the user", error.message);
+
+      }
+    }
+    return userDocRef;
+  } 
