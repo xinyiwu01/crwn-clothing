@@ -1,7 +1,7 @@
 import Home from "./routes/home/home.component";
 import { Routes, Route } from 'react-router-dom';
 import Navigation from "./routes/navigation/navigation.component";
-import SignIn from "./routes/sign-in/sign-in.component";
+import Authentication from "./routes/authentication/authentication.component";
 
 const App = () => {
   return (
@@ -9,7 +9,7 @@ const App = () => {
       <Route path='/' element={<Navigation/>}> {/**navigation is outer, parent, with Outlet in Navigation component, its childern will navigate the rest component */}
         {/*<Route path='home' element={<Home/>}/> {/**when it matches path, it renders element */}
         <Route index element={<Home/>}></Route> {/**shorthand for index = {true}, when path is empty, match '/' and render Home */}
-        <Route path='sign-in' element={<SignIn/>}></Route>
+        <Route path='auth' element={<Authentication/>}></Route>
       </Route>
     </Routes>
   );
