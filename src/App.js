@@ -10,6 +10,7 @@ const App = () => {
         {/*<Route path='home' element={<Home/>}/> {/**when it matches path, it renders element */}
         <Route index element={<Home/>}></Route> {/**shorthand for index = {true}, when path is empty, match '/' and render Home */}
         <Route path='auth' element={<Authentication/>}></Route>
+        <Route path='shop' element={<Home/>}></Route>
       </Route>
     </Routes>
   );
