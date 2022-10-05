@@ -3,8 +3,6 @@ import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from "
 import FormInput from "../form-input/form-input.components";
 import './sign-up-form.styles.scss';
 import Button from "../button/button.component";
-import { UserContext } from "../contexts/user.context";
-import { useContext } from "react";
 
 const defaultFormFields = {
     displayName: '',
@@ -18,21 +16,19 @@ const SignUpForm = () => {
     const resetFormFields = () => {
         setFormFields(defaultFormFields)
     };
-    const {setCurrentUser} = useContext(UserContext);
-
+   
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (password != confirmPassword) {
+        if (password !== confirmPassword) {
             alert("password do not match");
             return;
         }
         try {
             const { user } = await createAuthUserWithEmailAndPassword(email, password);
             await createUserDocumentFromAuth(user, {displayName});
-            setCurrentUser(user);
             resetFormFields();
         } catch (error) {
-            if (error.code == 'auth/email-already-in-use') {
+            if (error.code === 'auth/email-already-in-use') {
                 alert("Can't create user, email alreay in use");
             } else {
                 console.log("user creation encountered an error", error)
