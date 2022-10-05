@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect} from "react";
 //context: just a component, makes state and setState externally
-import { onAuthStateChangedListener, createUserDocumentFromAuth } from "../../utils/firebase/firebase.utils";
+import { onAuthStateChangedListener, createUserDocumentFromAuth } from "../utils/firebase/firebase.utils";
 
 
 //as the actual value you want to access
