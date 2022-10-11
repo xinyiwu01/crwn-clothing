@@ -1,3 +1,4 @@
+// isolate our app with 3rd party implementation, like google firestore
 //diff services
 import {initializeApp} from 'firebase/app';
 import {
@@ -15,7 +16,11 @@ import {
   getFirestore,
   doc,
   getDoc,
-  setDoc
+  setDoc, 
+  collection, 
+  writeBatch,
+  query,
+  getDocs
 } from 'firebase/firestore';
 
 //CRUD ACTIONS
@@ -44,10 +49,42 @@ const firebaseConfig = {
   export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googleProvider);
 
   export const db = getFirestore(); //get firestore database
+                                           // eg. user as key, store user info
+  export const addCollectionAndDocuments = async (collectionKey, objectsToAdd /*, fieldValue)*/ ) => {
+                                                                                  ///fieldValue="title"
+    const collectionRef = collection(db, collectionKey);
+    // shop data
+    /**
+     * like bank transaction: use batch in firestore to implement
+     * unit of work: both work, account1 -100, account2 +100
+     */
+    const batch = writeBatch(db);
+    objectsToAdd.forEach((object) => {  //object[fieldValue].toLowerCase
+      const docRef = doc(collectionRef, object.title.toLowerCase());
+      batch.set(docRef, object); // set object to reference of docRef, works even ref doesn't exist
+    })
+    await batch.commit();
+    console.log("done");
+  }
+   
+  export const getCategoriesAndDocuments = async () => {
+    const collectionRef = collection(db, 'categories');
+    const q = query(collectionRef);
+         // snapshpt: actual data
+    const querySnapShot = await getDocs(q);
+                                  //.docs: diff documents
+    const categoryMap = querySnapShot.docs.reduce((acc, docSnpShot) => {
+      const {title, items} = docSnpShot.data(); // object
+      acc[title.toLowerCase()] = items;
+      return acc;
+    }, {})
+    //const newCartCount = cartItems.reduce((total, cartItem) => total + cartItem.quantity, 0);
+    return categoryMap;
+  }
 
   export const createUserDocumentFromAuth = async(userAuth, additionalInformation) => {
     if (!userAuth) return;
-    //ref: a special object firestore uses when talking about instance of a document model
+    //ref: a special object firestore uses when talking about instance of a document model, MongoDB collections(contain multiple document units)
     const userDocRef = doc(db, 'users', userAuth.uid);
     //                      user collection   unique identifier
 

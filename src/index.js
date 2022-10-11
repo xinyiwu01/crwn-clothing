@@ -4,7 +4,7 @@ import App from './App';
 import { UserProvider } from './contexts/user.context';
 import { BrowserRouter } from 'react-router-dom';
 import './index.scss';
-import { ProductsProvider } from './contexts/products.context';
+import { CategoriesProvider } from './contexts/categories.context';
 import { CartProvider } from './contexts/cart.context';
 
 const rootElement = document.getElementById('root');
@@ -13,11 +13,11 @@ render(
   <React.StrictMode>
     <BrowserRouter>
       <UserProvider>
-        <ProductsProvider> {/** users in diff locations have diff products */}
+        <CategoriesProvider> {/** users in diff locations have diff products */}
           <CartProvider>
             <App />   {/**any component inside of provider can access context */}
           </CartProvider>
-        </ProductsProvider>
+        </CategoriesProvider>
       </UserProvider>
     </BrowserRouter>
   </React.StrictMode>,
