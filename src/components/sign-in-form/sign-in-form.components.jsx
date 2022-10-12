@@ -56,7 +56,7 @@ const SignInForm = () => {
                 <FormInput label="Password" type='password' required onChange={handleChange} name='password'value={password} />
                 <div className="buttons-container">
                     <Button type='submit'>Sign In</Button>
-                    <Button type='button' onClick={signInWithGoogle} buutonType="google">Google Sign In</Button>
+                    <Button type='button' onClick={signInWithGoogle} buttonType="google">Google Sign In</Button>
                     {/**default submit type in form, pop up 'no user associated with email' error */}
                 </div>
             </form>

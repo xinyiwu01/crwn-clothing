@@ -1,7 +1,7 @@
 import { createContext, useEffect, useReducer} from "react";
 //context: just a component, makes state and setState externally
 import { onAuthStateChangedListener, createUserDocumentFromAuth } from "../utils/firebase/firebase.utils";
-
+import { createAction } from "../utils/reducer/reducer.utils";
 
 //as the actual value you want to access
 export const UserContext = createContext({
@@ -25,7 +25,7 @@ const userReducer = (state, action) => {
                 currentUser: payload
             }
         default:
-            throw new Error(`unhandled type ${type}` in userReducer)
+            throw new Error(`unhandled type ${type} in userReducer`)
     }
 
 }
@@ -40,7 +40,8 @@ export const UserProvider = ({children}) => {
     //const {currentUser} = state: 2nd way for destructure
     //const [currentUser, setCurrentUser] = useState(null); //initial value for state
     const setCurrentUser = (user) => {
-        dispatch({type: USER_ACTION_TYPES.SET_CURRENT_USER, payload: user})
+       // dispatch({type: USER_ACTION_TYPES.SET_CURRENT_USER, payload: user})
+        dispatch(createAction(USER_ACTION_TYPES.SET_CURRENT_USER, user))
     }
 
     const value = {currentUser, setCurrentUser};
@@ -66,4 +67,11 @@ export const UserProvider = ({children}) => {
  *      }
  * }
  * replace useState with useReducer
+ * 
+ * 
+ * 1.useState:Whenever set state gets called, state gets updated and the functional component re runs 
+ * with reducer.
+ *
+ * 2.Whenever dispatch gets called and a new state object is returned, then we also will rerun this 
+ * functional component
  */
