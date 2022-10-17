@@ -1,7 +1,8 @@
-import { useContext, useState, useEffect, Fragment} from "react";
+import { useState, useEffect, Fragment} from "react";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import ProductCard from "../../components/product-card/product-card.component";
-import { CategoriesContext } from "../../contexts/categories.context";
+import { selectCategoriesMap } from "../../store/categories/category.selector";
 import './category.styles.scss';
 
 /**
@@ -11,7 +12,7 @@ import './category.styles.scss';
  */
 const Category = () => {
     const {category} = useParams();
-    const {categoriesMap} = useContext(CategoriesContext);
+    const categoriesMap = useSelector(selectCategoriesMap);
     // is ok, but we don't need to get it each time the component renders
     // const products = categoriesMap[category]; 
     const [products, setProducts] = useState(categoriesMap[category]); // at beginning, categoriesMap is an empty object

@@ -1,13 +1,16 @@
+import { useSelector, useDispatch } from 'react-redux';
+import { selectCartItems } from '../../store/cart/cart.selector';
+import { clearCartItem, addItemToCart, removeItemFromCart } from '../../store/cart/cart.action';
 import './checkout-item.styles.scss';
-import { useContext } from 'react';
-import { CartContext } from '../../contexts/cart.context';
 
 const CheckoutItem = ({cartItem}) => {
     const {name, imageUrl, price, quantity} = cartItem;
-    const {clearCartItem, addItemToCart, removeItemFromCart} = useContext(CartContext);
-    const addHandler = ()=> addItemToCart(cartItem);
-    const removeHandler = () => removeItemFromCart(cartItem);
-    const clearHandler = ()=> clearCartItem(cartItem); // not call this method,otherwise infinite loop, just a refer to the function
+    //const {clearCartItem, addItemToCart, removeItemFromCart} = useContext(CartContext);
+    const dispatch = useDispatch();
+    const cartItems = useSelector(selectCartItems);
+    const addHandler = ()=> dispatch(addItemToCart(cartItems, cartItem));
+    const removeHandler = () => dispatch(removeItemFromCart(cartItems, cartItem));
+    const clearHandler = ()=> dispatch(clearCartItem(cartItems, cartItem)); // not call this method,otherwise infinite loop, just a refer to the function
     return (
         <div className='checkout-item-container'>
             <div className='image-container'>

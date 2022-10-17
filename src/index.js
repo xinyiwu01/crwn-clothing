@@ -1,25 +1,20 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { Provider } from 'react-redux';
 import App from './App';
-import { UserProvider } from './contexts/user.context';
 import { BrowserRouter } from 'react-router-dom';
 import './index.scss';
-import { CategoriesProvider } from './contexts/categories.context';
-import { CartProvider } from './contexts/cart.context';
+import { store } from './store/store'
 
 const rootElement = document.getElementById('root');
 
 render(
   <React.StrictMode>
-    <BrowserRouter>
-      <UserProvider>
-        <CategoriesProvider> {/** users in diff locations have diff products */}
-          <CartProvider>
-            <App />   {/**any component inside of provider can access context */}
-          </CartProvider>
-        </CategoriesProvider>
-      </UserProvider>
-    </BrowserRouter>
+    <Provider store={store}> 
+      <BrowserRouter>
+          <App />   {/**any component inside of provider can access context */}
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>,
   rootElement
 );

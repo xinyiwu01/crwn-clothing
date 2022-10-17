@@ -73,13 +73,16 @@ const firebaseConfig = {
          // snapshpt: actual data
     const querySnapShot = await getDocs(q);
                                   //.docs: diff documents
-    const categoryMap = querySnapShot.docs.reduce((acc, docSnpShot) => {
-      const {title, items} = docSnpShot.data(); // object
-      acc[title.toLowerCase()] = items;
-      return acc;
-    }, {})
+                                  return querySnapShot.docs.map(docSnapShot => docSnapShot.data());
+    // const categoryMap = querySnapShot.docs
+
+    // .reduce((acc, docSnapShot) => {
+    //   const {title, items} = docSnapShot.data(); // object
+    //   acc[title.toLowerCase()] = items;
+    //   return acc;
+    // }, {})
     //const newCartCount = cartItems.reduce((total, cartItem) => total + cartItem.quantity, 0);
-    return categoryMap;
+    // return categoryMap;
   }
 
   export const createUserDocumentFromAuth = async(userAuth, additionalInformation) => {
